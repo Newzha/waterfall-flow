@@ -30,8 +30,10 @@ $(function () {
 
   // 2.数据绑定
 
+/*
   // 传递一个对象进来,返回对应的结构字符串
   let getHTMLStr = ({id, pic, title, link} = {}) => {
+    if (!id) { return '' };
     return `<a href="${link}">
             <div><img src="${pic}" alt=""></div>
             <span>${title}</span>
@@ -61,4 +63,24 @@ $(function () {
       boxList[2].innerHTML += getHTMLStr(item2);
     }
   }
+*/
+  // jQuery实现
+  let bindHTML = () => {
+    let $boxList = $('.flowBox > li');
+    for (let i = 0; i < pageData.length; i+=3) {
+      $boxList.sort((a, b) => {
+        return $(a).outerHeight() - $(b).outerHeight();
+      }).each((index, curLi) => {
+        let curData = pageData[i + index];
+        if (!curData) { return };
+        let {id, pic, title, link} = curData;
+        $(`<a href="${link}">
+            <div><img src="${pic}" alt=""></div>
+            <span>${title}</span>
+        </a>`).appendTo($(curLi));
+      });
+    }
+  };
+  bindHTML();
+
 });
